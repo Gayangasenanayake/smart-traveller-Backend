@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static create(mixed $validated)
@@ -21,23 +22,23 @@ class Hotel extends Model
         'is_deleted',
     ];
 
-    public function hotel_types(): HasMany
+    public function hotel_types(): HasOne
     {
-        return $this->hasMany(HotelType::class, 'hotel_id', 'id');
+        return $this->hasOne(HotelType::class, 'hotel_id', 'id');
     }
 
-    public function province(): HasMany
+    public function province(): HasOne
     {
-        return $this->hasMany(Province::class, 'hotel_id', 'id');
+        return $this->hasOne(Province::class, 'hotel_id', 'id');
     }
 
-    public function district(): HasMany
+    public function district()
     {
-        return $this->hasMany(District::class, 'hotel_id', 'id');
+        return $this->hasOne(District::class, 'hotel_id', 'id');
     }
 
-    public function location_links(): HasMany
+    public function location_links(): HasOne
     {
-        return $this->hasMany(LocationLinks::class, 'hotel_id', 'id');
+        return $this->hasOne(LocationLinks::class, 'hotel_id', 'id');
     }
 }

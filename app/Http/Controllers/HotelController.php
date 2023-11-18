@@ -25,8 +25,34 @@ class HotelController extends Controller
     public function store(HotelRequest $request): JsonResponse|DataResource
     {
         try {
-            $hotels = Hotel::create($request->validated());
-            return new DataResource($hotels);
+            $hotel = Hotel::create($request->except('type', 'province', 'district','location_link'));
+            $type = $request->input('type');
+            $province = $request->input('province');
+            $district = $request->input('district');
+            $location_link = $request->input('location_link');
+
+            $hotel->hotel_types()->create([
+                'name' => $type,
+                'hotel_id' => $hotel->id,
+            ]);
+            $hotel->province()->create
+            ([
+                'name' => $province,
+                'hotel_id' => $hotel->id,
+            ]);
+            $hotel->district()->create
+            ([
+                'name' => $district,
+                'hotel_id' => $hotel->id,
+            ]);
+
+            if($location_link){
+                $hotel->location_links()->create([
+                    'name' => $location_link,
+                    'hotel_id' => $hotel->id,
+                ]);
+            }
+            return new DataResource($hotel);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -45,7 +71,7 @@ class HotelController extends Controller
         }
     }
 
-    public function destroy($hotel_id)
+    public function destroy($hotel_id): JsonResponse
     {
         try {
             $course = Hotel::findOrFail($hotel_id);
@@ -56,7 +82,7 @@ class HotelController extends Controller
         }
     }
 
-    public function update(HotelRequest $request, $hotel_id)
+    public function update(HotelRequest $request, $hotel_id): JsonResponse|DataResource
     {
         try {
             $course = Hotel::findOrFail($hotel_id);

@@ -11,7 +11,7 @@ class HotelRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class HotelRequest extends FormRequest
             'close_time'=> 'time|nullable',
             'province' => 'string|required',
             'district' => 'string|required',
-            'location_link' => 'string|nullable',
+            'location_link' => 'nullable',
         ];
     }
 }
