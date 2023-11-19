@@ -17,8 +17,7 @@ class HotelController extends Controller
         $hotels = QueryBuilder::for(Hotel::class)
             ->where('is_deleted', false)
             ->with(['hotel_types','province','district','location_links'])
-            ->paginate(10)
-            ->onEachSide(1);
+            ->get();
         return DataResource::collection($hotels);
     }
 
