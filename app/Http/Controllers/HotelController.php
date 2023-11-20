@@ -24,6 +24,23 @@ class HotelController extends Controller
     public function store(HotelRequest $request): JsonResponse|DataResource
     {
         try {
+//            if($request->input('img')) {
+//                $image = $request->input('img');
+//                $imageData = file_get_contents($image->getRealPath());
+//                $base64 = base64_encode($imageData);
+//                $request->merge([
+//                    'img' => $base64,
+//                ]);
+//            }
+            if ($request->hasFile('img')) {
+                $file = $request->file('img');
+                $imageData = file_get_contents($file->getRealPath());
+                $base64 = base64_encode($imageData);
+                $request->merge([
+                    'img' => $base64,
+                ]);
+            }
+
             $hotel = Hotel::create($request->except('type', 'province', 'district','location_link'));
             $type = $request->input('type');
             $province = $request->input('province');
@@ -51,6 +68,7 @@ class HotelController extends Controller
                     'hotel_id' => $hotel->id,
                 ]);
             }
+
             return new DataResource($hotel);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
