@@ -33,7 +33,7 @@ class Hotel extends Model
         return $this->hasOne(Province::class, 'hotel_id', 'id');
     }
 
-    public function district()
+    public function district(): HasOne
     {
         return $this->hasOne(District::class, 'hotel_id', 'id');
     }

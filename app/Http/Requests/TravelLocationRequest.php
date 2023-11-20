@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TravelLocationRequest extends FormRequest
@@ -11,13 +12,13 @@ class TravelLocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -26,11 +27,12 @@ class TravelLocationRequest extends FormRequest
             'type'=> 'required',
             'description'=> 'required',
             'ticket_price'=> 'nullable|numeric',
-            'open_time'=> 'time|nullable',
-            'close_time'=> 'time|nullable',
+            'open_time'=> 'date_format:H:i|nullable',
+            'close_time'=> 'date_format:H:i|nullable',
             'province' => 'string|required',
             'district' => 'string|required',
-            'location_link' => 'string|nullable',
+            'location_link' => 'nullable',
+            'img' => 'required'
         ];
     }
 }
