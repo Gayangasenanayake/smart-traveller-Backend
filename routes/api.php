@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('admin/register', [\App\Http\Controllers\AdminController::class, 'register']);
 Route::post('admin/login', [\App\Http\Controllers\AdminController::class, 'login']);
+Route::post('consumer/login',[\App\Http\Controllers\ConsumerController::class,'login']);
+Route::post('consumer/register',[\App\Http\Controllers\ConsumerController::class,'register']);
 Route::apiResource('/hotel', HotelController::class);
 
 
