@@ -20,6 +20,7 @@ class Hotel extends Model
         'open_time',
         'close_time',
         'is_deleted',
+        'img',
     ];
 
     public function hotel_types(): HasOne

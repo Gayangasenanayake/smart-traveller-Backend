@@ -32,6 +32,7 @@ class HotelRequest extends FormRequest
             'province' => 'string|required',
             'district' => 'string|required',
             'location_link' => 'nullable',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }
