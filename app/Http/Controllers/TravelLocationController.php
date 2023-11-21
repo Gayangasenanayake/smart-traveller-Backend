@@ -15,19 +15,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TravelLocationController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(): DataResource
     {
         $travel_locations = QueryBuilder::for(TravelLocation::class)
             ->where('is_deleted', false)
-            ->with(['hotel_types','province','district','location_links'])
-            ->paginate(10)
-            ->onEachSide(1);
-        return DataResource::collection($travel_locations);
+            ->with(['type','province','district','location_links'])
+            ->get();
+        return new DataResource($travel_locations);
     }
 
     public function store(TravelLocationRequest $request): JsonResponse|DataResource
     {
         try {
+            if ($request->hasFile('img')) {
+                $file = $request->file('img');
+                $imageData = file_get_contents($file->getRealPath());
+                $base64 = base64_encode($imageData);
+                $request->merge([
+                    'img' => $base64,
+                ]);
+            }
+
             $travel_location = TravelLocation::create($request->except('type', 'province', 'district','location_link'));
             $type = $request->input('type');
             $province = $request->input('province');

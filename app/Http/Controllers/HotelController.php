@@ -17,16 +17,59 @@ class HotelController extends Controller
         $hotels = QueryBuilder::for(Hotel::class)
             ->where('is_deleted', false)
             ->with(['hotel_types','province','district','location_links'])
-            ->paginate(10)
-            ->onEachSide(1);
+            ->get();
         return DataResource::collection($hotels);
     }
 
     public function store(HotelRequest $request): JsonResponse|DataResource
     {
         try {
-            $hotels = Hotel::create($request->validated());
-            return new DataResource($hotels);
+//            if($request->input('img')) {
+//                $image = $request->input('img');
+//                $imageData = file_get_contents($image->getRealPath());
+//                $base64 = base64_encode($imageData);
+//                $request->merge([
+//                    'img' => $base64,
+//                ]);
+//            }
+            if ($request->hasFile('img')) {
+                $file = $request->file('img');
+                $imageData = file_get_contents($file->getRealPath());
+                $base64 = base64_encode($imageData);
+                $request->merge([
+                    'img' => $base64,
+                ]);
+            }
+
+            $hotel = Hotel::create($request->except('type', 'province', 'district','location_link'));
+            $type = $request->input('type');
+            $province = $request->input('province');
+            $district = $request->input('district');
+            $location_link = $request->input('location_link');
+
+            $hotel->hotel_types()->create([
+                'name' => $type,
+                'hotel_id' => $hotel->id,
+            ]);
+            $hotel->province()->create
+            ([
+                'name' => $province,
+                'hotel_id' => $hotel->id,
+            ]);
+            $hotel->district()->create
+            ([
+                'name' => $district,
+                'hotel_id' => $hotel->id,
+            ]);
+
+            if($location_link){
+                $hotel->location_links()->create([
+                    'name' => $location_link,
+                    'hotel_id' => $hotel->id,
+                ]);
+            }
+
+            return new DataResource($hotel);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -45,7 +88,7 @@ class HotelController extends Controller
         }
     }
 
-    public function destroy($hotel_id)
+    public function destroy($hotel_id): JsonResponse
     {
         try {
             $course = Hotel::findOrFail($hotel_id);
@@ -56,7 +99,7 @@ class HotelController extends Controller
         }
     }
 
-    public function update(HotelRequest $request, $hotel_id)
+    public function update(HotelRequest $request, $hotel_id): JsonResponse|DataResource
     {
         try {
             $course = Hotel::findOrFail($hotel_id);

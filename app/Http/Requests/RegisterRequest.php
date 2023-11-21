@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class HotelRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +23,10 @@ class HotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> 'string|required',
-            'description'=> 'required',
-            'type' => 'required',
-            'price_per_person'=> 'nullable|numeric',
-            'open_time'=> 'date_format:H:i|nullable',
-            'close_time'=> 'date_format:H:i|nullable',
-            'province' => 'string|required',
-            'district' => 'string|required',
-            'location_link' => 'nullable',
-            'img' => 'required'
+            'first_name'=>'required|string',
+            'last_name'=>'nullable|string',
+            'email'=> 'required|email',
+            'password' => 'required|min:8|string',
         ];
     }
 }

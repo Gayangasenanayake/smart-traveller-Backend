@@ -19,6 +19,7 @@ class TravelLocation extends Model
         'open_time',
         'close_time',
         'is_deleted',
+        'img',
     ];
 
     public function type(): HasOne

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class LocationLinks extends Model
 {
     protected $fillable = [
-        'link',
+        'name',
         'hotel_id',
         'travel_location_id',
         'is_deleted',

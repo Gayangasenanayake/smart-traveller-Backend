@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('review_id')->nullable()->references('id')->on('reviews');
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
