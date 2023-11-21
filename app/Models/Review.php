@@ -11,10 +11,10 @@ class Review extends Model
 {
     protected $fillable = [
         'name',
+        'user_id',
         'description',
-        'price_per_person',
-        'open_time',
-        'close_time',
+        'rate',
+        'location',
         'is_deleted',
     ];
 

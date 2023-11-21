@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConsumerController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TravelLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::post('consumer/login',[ConsumerController::class,'login']);
 Route::post('consumer/register',[ConsumerController::class,'register']);
 Route::apiResource('/hotel', HotelController::class);
 Route::apiResource('/travel_location', TravelLocationController::class);
+Route::apiResource('/review', ReviewController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

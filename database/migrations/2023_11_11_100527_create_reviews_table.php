@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->text('description');
-            $table->double('rate')->nullable();
+            $table->string('location')->nullable();
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
